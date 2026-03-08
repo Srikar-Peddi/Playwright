@@ -1,0 +1,33 @@
+name: Reserve Slot
+
+on:
+  schedule:
+    - cron: '50 12 * * 0,5'   # 6:50 AM America/Chicago on Sunday and Friday while CDT is UTC-5
+  workflow_dispatch:
+
+jobs:
+  reserve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Run reservation script
+        env:
+          CLUB_USER: ${{ secrets.CLUB_USER }}
+          CLUB_PASS: ${{ secrets.CLUB_PASS }}
+          TZ: America/Chicago
+        run: node reserve.js
