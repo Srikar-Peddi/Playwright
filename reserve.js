@@ -69,7 +69,7 @@ function getNextWeekSameDay() {
     await page.locator('#timeFrom_chosen').getByText('10:00 AM').click();
 
     await page.locator('a').filter({ hasText: '12:00 AM' }).click();
-    await page.locator('#timeTo_chosen').getByText('1:00 PM').click();
+    await page.locator('#timeTo_chosen').getByText('01:00 PM').click();
 
     await waitUntil7AM();
 
