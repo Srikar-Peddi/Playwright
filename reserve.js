@@ -16,11 +16,20 @@ function waitUntil7AM() {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-function getNextWeekSameDay() {
+// Use offset = 7 for real same-day-next-week booking
+// Use offset = 6 only for your current April 1 test scenario
+function getNextWeekSameDay(offset = 6) {
   const today = new Date();
   const next = new Date(today);
-  next.setDate(today.getDate() + 6);
+
+  next.setDate(today.getDate() + offset);
+
+  const month = String(next.getMonth() + 1).padStart(2, '0');
+  const day = String(next.getDate()).padStart(2, '0');
+  const year = next.getFullYear();
+
   return {
+    formatted: `${month}/${day}/${year}`, // MM/DD/YYYY for #date input
     dayNumber: next.getDate(),
     fullDate: next.toDateString()
   };
@@ -53,24 +62,25 @@ function getNextWeekSameDay() {
     await page.locator('#component_chosen').getByText('Gym').click();
     await page.getByText('60 Min').click();
 
-    // Open calendar  
+    const nextReservation = getNextWeekSameDay(6); // change to 7 in production
+    console.log(`Selecting reservation date: ${nextReservation.fullDate} (${nextReservation.formatted})`);
 
-
-    // Pick next week's same weekday
-    const nextReservation = getNextWeekSameDay();
-    console.log(`Selecting reservation date: ${nextReservation.fullDate} (day ${nextReservation.dayNumber})`);
-    await page.locator('#date').fill('04/01/2026');
+    await page.locator('#date').fill(nextReservation.formatted);
+    await page.locator('#date').press('Enter');
 
     await page.locator('a').filter({ hasText: 'All Service Locations' }).click();
     await page.locator('#location_chosen').getByText('Badminton').click();
 
-    await page.locator('#timeFrom_chosen a').filter({ hasText: ':00 PM' }).click();
-    await page.locator('#timeFrom_chosen').getByText('10:00 AM').click();
+    await page.locator('#timeFrom_chosen a').click();
+    await page.locator('#timeFrom_chosen .chosen-drop').waitFor({ state: 'visible' });
+    await page.locator('#timeFrom_chosen .chosen-drop .active-result', { hasText: '10:00 AM' }).click();
 
-    await page.locator('a').filter({ hasText: '12:00 AM' }).click();
-    await page.locator('#timeTo_chosen').getByText('01:00 PM').click();
+    await page.locator('#timeTo_chosen a').click();
+    await page.locator('#timeTo_chosen .chosen-drop').waitFor({ state: 'visible' });
+    await page.locator('#timeTo_chosen .chosen-drop .active-result', { hasText: '01:00 PM' }).click();
 
-    //await waitUntil7AM();
+    // Uncomment for real scheduled runs
+    // await waitUntil7AM();
 
     const start = Date.now();
 
