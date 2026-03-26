@@ -16,8 +16,7 @@ function waitUntil7AM() {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-// Use offset = 7 for real same-day-next-week booking
-// Use offset = 6 only for your current April 1 test scenario
+
 function getNextWeekSameDay(offset = 6) {
   const today = new Date();
   const next = new Date(today);
@@ -62,7 +61,7 @@ function getNextWeekSameDay(offset = 6) {
     await page.locator('#component_chosen').getByText('Gym').click();
     await page.getByText('60 Min').click();
 
-    const nextReservation = getNextWeekSameDay(6); // change to 7 in production
+    const nextReservation = getNextWeekSameDay(6); 
     console.log(`Selecting reservation date: ${nextReservation.fullDate} (${nextReservation.formatted})`);
 
     await page.locator('#date').fill(nextReservation.formatted);
@@ -71,13 +70,11 @@ function getNextWeekSameDay(offset = 6) {
     await page.locator('a').filter({ hasText: 'All Service Locations' }).click();
     await page.locator('#location_chosen').getByText('Badminton').click();
 
-    await page.locator('#timeFrom_chosen a').click();
-    await page.locator('#timeFrom_chosen .chosen-drop').waitFor({ state: 'visible' });
-    await page.locator('#timeFrom_chosen .chosen-drop .active-result', { hasText: '10:00 AM' }).click();
+    await page.locator('#timeFrom_chosen a').filter({ hasText: ':00 AM' }).click();
+    await page.locator('#timeFrom_chosen').getByText('5:00 PM').click();
 
-    await page.locator('#timeTo_chosen a').click();
-    await page.locator('#timeTo_chosen .chosen-drop').waitFor({ state: 'visible' });
-    await page.locator('#timeTo_chosen .chosen-drop .active-result', { hasText: '01:00 PM' }).click();
+    await page.locator('a').filter({ hasText: '12:00 AM' }).click();
+    await page.locator('#timeTo_chosen').getByText('10:00 PM').click();
 
     // Uncomment for real scheduled runs
     // await waitUntil7AM();
@@ -85,7 +82,7 @@ function getNextWeekSameDay(offset = 6) {
     const start = Date.now();
 
     await page.getByRole('button', { name: 'Search' }).click();
-    await page.getByRole('link', { name: '11:00am' }).first().click();
+    await page.getByRole('link', { name: '8:30pm' }).first().click();
     await page.getByRole('button', { name: 'Confirm' }).click();
     await page.getByRole('button', { name: 'Ok' }).click();
 
