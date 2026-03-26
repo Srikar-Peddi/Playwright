@@ -55,6 +55,7 @@ function getNextWeekSameDay() {
 
     // Open calendar
     await page.getByRole('link').filter({ hasText: /^$/ }).click();
+    await page.locator('.datepickerGoNext > a').click();
 
     // Pick next week's same weekday
     const nextReservation = getNextWeekSameDay();
