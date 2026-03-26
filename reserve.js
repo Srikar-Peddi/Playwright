@@ -82,7 +82,7 @@ function getNextWeekSameDay(offset = 7) {
     const start = Date.now();
 
     await page.getByRole('button', { name: 'Search' }).click();
-    await page.getByRole('link', { name: '8:30pm' }).first().click();
+    await page.getByRole('link', { name: '5:00pm' }).first().click();
     await page.getByRole('button', { name: 'Confirm' }).click();
     await page.getByRole('button', { name: 'Ok' }).click();
 
