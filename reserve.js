@@ -53,9 +53,9 @@ function getNextWeekSameDay() {
     await page.locator('#component_chosen').getByText('Gym').click();
     await page.getByText('60 Min').click();
 
-    // Open calendar
-await page.locator('#date').click();
-  await page.locator('#datepicker_100 > .datepickerContainer > table > tbody > tr > td > .datepickerViewDays > thead > tr > .datepickerMonth > .datepickerGoNext > a').click();
+    // Open calendar  
+    await page.getByRole('link').filter({ hasText: /^$/ }).click();
+    await page.locator('.datepickerGoNext > a').first().click();
 
     // Pick next week's same weekday
     const nextReservation = getNextWeekSameDay();
