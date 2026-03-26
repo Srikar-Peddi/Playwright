@@ -54,12 +54,7 @@ function getNextWeekSameDay() {
     await page.getByText('60 Min').click();
 
     // Open calendar  
-await page.getByRole('link').filter({ hasText: /^$/ }).click();
-
-const calendar = page.locator('.datepicker:visible').first();
-await calendar.waitFor({ state: 'visible' });
-
-await calendar.locator('.datepickerGoNext a').click();
+    await page.locator('#date').fill('04/01/2026');
 
     // Pick next week's same weekday
     const nextReservation = getNextWeekSameDay();
