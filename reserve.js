@@ -60,7 +60,6 @@ function getNextWeekSameDay() {
     const nextReservation = getNextWeekSameDay();
     console.log(`Selecting reservation date: ${nextReservation.fullDate} (day ${nextReservation.dayNumber})`);
 
-    await page.getByRole('link', { name: String(nextReservation.dayNumber) }).first().click();
 
     await page.locator('a').filter({ hasText: 'All Service Locations' }).click();
     await page.locator('#location_chosen').getByText('Badminton').click();
