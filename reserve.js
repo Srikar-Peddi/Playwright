@@ -19,7 +19,7 @@ function waitUntil7AM() {
 function getNextWeekSameDay() {
   const today = new Date();
   const next = new Date(today);
-  next.setDate(today.getDate() + 7);
+  next.setDate(today.getDate() + 6);
   return {
     dayNumber: next.getDate(),
     fullDate: next.toDateString()
@@ -72,7 +72,7 @@ function getNextWeekSameDay() {
     await page.locator('a').filter({ hasText: '12:00 AM' }).click();
     await page.locator('#timeTo_chosen').getByText('01:00 PM').click();
 
-    await waitUntil7AM();
+    //await waitUntil7AM();
 
     const start = Date.now();
 
