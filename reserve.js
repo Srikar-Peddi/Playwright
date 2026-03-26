@@ -54,12 +54,12 @@ function getNextWeekSameDay() {
     await page.getByText('60 Min').click();
 
     // Open calendar  
-    await page.locator('#date').fill('04/01/2026');
+
 
     // Pick next week's same weekday
     const nextReservation = getNextWeekSameDay();
     console.log(`Selecting reservation date: ${nextReservation.fullDate} (day ${nextReservation.dayNumber})`);
-
+    await page.locator('#date').fill('04/01/2026');
 
     await page.locator('a').filter({ hasText: 'All Service Locations' }).click();
     await page.locator('#location_chosen').getByText('Badminton').click();
