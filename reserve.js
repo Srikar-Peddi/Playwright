@@ -59,7 +59,7 @@ function getNextWeekSameDay(offset = 6) {
     await page.locator('a').filter({ hasText: 'Tennis' }).click();
 
     await page.locator('#component_chosen').getByText('Gym').click();
-    await page.getByText('60 Min').click();
+    await page.getByText('30 Min').click();
 
     const nextReservation = getNextWeekSameDay(6); 
     console.log(`Selecting reservation date: ${nextReservation.fullDate} (${nextReservation.formatted})`);
