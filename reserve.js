@@ -17,7 +17,7 @@ function waitUntil7AM() {
 }
 
 
-function getNextWeekSameDay(offset = 6) {
+function getNextWeekSameDay(offset = 7) {
   const today = new Date();
   const next = new Date(today);
 
@@ -59,9 +59,9 @@ function getNextWeekSameDay(offset = 6) {
     await page.locator('a').filter({ hasText: 'Tennis' }).click();
 
     await page.locator('#component_chosen').getByText('Gym').click();
-    await page.getByText('30 Min').click();
+    await page.getByText('60 Min').click();
 
-    const nextReservation = getNextWeekSameDay(6); 
+    const nextReservation = getNextWeekSameDay(7); 
     console.log(`Selecting reservation date: ${nextReservation.fullDate} (${nextReservation.formatted})`);
 
     await page.locator('#date').fill(nextReservation.formatted);
@@ -70,14 +70,14 @@ function getNextWeekSameDay(offset = 6) {
     await page.locator('a').filter({ hasText: 'All Service Locations' }).click();
     await page.locator('#location_chosen').getByText('Badminton').click();
 
-    await page.locator('#timeFrom_chosen a').filter({ hasText: ':00 PM' }).click();
+    await page.locator('#timeFrom_chosen a').filter({ hasText: ':00 AM' }).click();
     await page.locator('#timeFrom_chosen').getByText('5:00 PM').click();
 
     await page.locator('a').filter({ hasText: '12:00 AM' }).click();
-    await page.locator('#timeTo_chosen').getByText('10:00 PM').click();
+    await page.locator('#timeTo_chosen').getByText('7:00 PM').click();
 
     // Uncomment for real scheduled runs
-    // await waitUntil7AM();
+     await waitUntil7AM();
 
     const start = Date.now();
 
